@@ -15,6 +15,7 @@ app.use(logger('dev'));
 app.use(body_parser.json());
 app.use(body_parser.urlencoded({extended:true}));
 app.use(cookieParser());
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);

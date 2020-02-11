@@ -15,7 +15,7 @@ const upload = multer({ storage: storage });
 
 exports.upload = upload;
 
-exports.formdata = async (req) => {
+const formdata = async (input) => {
 
     let {
         keyId,
@@ -24,18 +24,17 @@ exports.formdata = async (req) => {
         alertMessage,
         alertPayload,
         alertTopic,
-    } = req.body;
+    } = input.body;
 
-    let certificate = req.file.path;
+    let certificate = input.file.path;
     let data = { keyId, teamId, deviceToken, alertMessage, alertPayload, alertTopic, certificate };
-
     return data;
 }
 
 // Apple APN code
 exports.pushmessage = async (req, res) => {
 
-    let data = await this.formdata(req);
+    let data = await formdata(req);
     let options = {};
     options.token = {
         key: data.certificate,
@@ -56,6 +55,8 @@ exports.pushmessage = async (req, res) => {
     notification.payload = { "messageFrom": data.alertPayload };
     notification.topic = data.alertTopic;
 
+    console.log(notification);
+    
     // Send Notification
     apnProvider.send(notification, deviceToken)
         .then(result => {
