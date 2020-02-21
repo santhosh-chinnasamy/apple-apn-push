@@ -61,4 +61,4 @@ typings/
 .next
 
 # upload folder
-uploads
+uploads/*
