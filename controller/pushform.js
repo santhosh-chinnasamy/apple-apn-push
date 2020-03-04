@@ -25,7 +25,7 @@ exports.pushmessage = async (req, res) => {
         token: {
             key: data.certificate,
             keyId: data.keyId,
-            teamId: data.keyId,
+            teamId: data.teamId,
         },
         production: isproduction
     };
@@ -35,12 +35,12 @@ exports.pushmessage = async (req, res) => {
     // Prepare Notification
     let notification = new apn.Notification();
     notification.expiry = Math.floor(Date.now() / 1000) + 24 * 3600;
-    notification.badge = 2;
+    notification.badge = 3;
     notification.sound = 'ping.aiff';
     notification.alert = data.alertMessage;
     notification.payload = { 'messageFrom': data.alertPayload };
-    notification.topic = "" + data.alertTopic;
-
+    notification.topic = data.alertTopic;
+    
     // Send Notification
     apnProvider.send(notification, deviceToken)
         .then(result => {
