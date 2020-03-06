@@ -20,14 +20,14 @@ exports.upload = upload;
 exports.pushmessage = async (req, res) => {
 
     let data = await util.formdata(req);
-    let isproduction = data.isproduction ? data.isproduction : false;
+    let isProduction = data.isProduction == 'true' ? true : false;
     let options = {
         token: {
             key: data.certificate,
             keyId: data.keyId,
             teamId: data.teamId,
         },
-        production: isproduction
+        production: isProduction
     };
     let apnProvider = new apn.Provider(options);
     let deviceToken = data.deviceToken;
